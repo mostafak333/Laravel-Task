@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Location;
 use Illuminate\Http\Request;
+use App\Models\Gold;
+use App\Models\Treasury;
+use App\Models\Bar;
+use Illuminate\Support\Facades\DB;
 
-class LocationController extends Controller
+class TreasuryController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,8 +27,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations = Location::all();
-        return view('location.show')->with('locations', $locations);
+        $treasuries = Treasury::all();
+        return view('treasury.show')->with('treasuries', $treasuries);
     }
 
     /**
@@ -35,7 +38,8 @@ class LocationController extends Controller
      */
     public function create()
     {
-        return view('location.add');
+
+        return view('treasury.add');
     }
 
     /**
@@ -46,17 +50,12 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'locationname' => 'required',
-            'governorate' => 'required',
-            'address' => 'required'
-        ]);
-        $location = new Location;
-        $location->country = $request->input('locationname');
-        $location->Governorate = $request->input('governorate');
-        $location->address = $request->input('address');
-        $location->save();
-        return redirect('/location')->with('success', 'location Added Successfully');
+        $treasury = new Treasury;
+        $treasury->status = $request->input('status');
+        $treasury->locationId = $request->input('locationId');
+        $treasury->weight = $request->input('weight');
+        $treasury->save();
+        return redirect('/treasury')->with('success', 'Treasury Added Successfully');
     }
 
     /**
@@ -78,8 +77,8 @@ class LocationController extends Controller
      */
     public function edit($id)
     {
-        $location = location::find($id);
-        return view('location.edit')->with('location', $location);
+        $treasury = Treasury::find($id);
+        return view('treasury.edit')->with('treasury', $treasury);
     }
 
     /**
@@ -91,17 +90,12 @@ class LocationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'locationname' => 'required',
-            'governorate' => 'required',
-            'address' => 'required'
-        ]);
-        $location = location::find($id);
-        $location->country = $request->input('locationname');
-        $location->governorate = $request->input('governorate');
-        $location->address = $request->input('address');
-        $location->save();
-        return redirect('/location')->with('success', 'location Updated Successfully');
+        $treasury = Treasury::find($id);
+        $treasury->weight = $request->input('weight');
+        $treasury->status = $request->input('status');
+        $treasury->locationId = $request->input('locationId');
+        $treasury->save();
+        return redirect('/treasury')->with('success', 'Treasury Updated Successfully');
     }
 
     /**
@@ -112,13 +106,13 @@ class LocationController extends Controller
      */
     public function destroy($id)
     {
-        $location = location::find($id);
+        $treasury = Treasury::find($id);
 
         try {
-            $location->delete();
-            return redirect('/location')->with('success', 'location Deleted Successfully');
+            $treasury->delete();
+            return redirect('/treasury')->with('success', 'Treasury Deleted Successfully');
         } catch (\Exception  $e) {
-            return redirect('/location')->with('error', 'Can\'t Delete This Location Because Many Data Will Be Affected');
+            return redirect('/treasury')->with('error', 'Treasury Should Be Empty To Be Deleted Because Many Data Will Be Affected');
         }
     }
 }

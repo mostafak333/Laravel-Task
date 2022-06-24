@@ -11,6 +11,16 @@ use mysqli;
 class BarController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -100,7 +110,11 @@ class BarController extends Controller
     public function destroy($id)
     {
         $bar = Bar::find($id);
-        $bar->delete();
-        return redirect('/bar')->with('success', 'Bar Deleted Successfully');
+        try {
+            $bar->delete();
+            return redirect('/bar')->with('success', 'Bar Deleted Successfully');
+        } catch (\Exception  $e) {
+            return redirect('/bar')->with('error', 'Bar Can\'T Deleted Because Many Data Will Be Affected');
+        }
     }
 }

@@ -18,11 +18,12 @@ class CreateTreasuryTable extends Migration
 
             $table->integer('id')->autoIncrement()->unsigned(false);
             $table->integer('status');
-            $table->integer('location');
+            $table->integer('locationId');
             $table->float('weight');
+            $table->timestamps();
         });
         Schema::table('treasury', function (Blueprint $table) {
-            $table->foreign('location')->references('id')->on('location');
+            $table->foreign('locationId')->references('id')->on('location');
         });
     }
 

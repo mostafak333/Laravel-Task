@@ -1,11 +1,10 @@
-
 @if(count($errors)>0)
-    @foreach($errors->all() as $error)
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        {{$error}}
-    </div>
-    @endforeach
+@foreach($errors->all() as $error)
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{$error}}
+</div>
+@endforeach
 @endif
 
 
@@ -24,4 +23,3 @@
     {{session('error')}}
 </div>
 @endif
-

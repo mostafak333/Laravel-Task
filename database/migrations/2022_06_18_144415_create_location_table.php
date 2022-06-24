@@ -17,7 +17,7 @@ class CreateLocationTable extends Migration
             $table->integer('id')->autoIncrement()->unsigned(false);
             $table->string('country', 50);
             $table->string('governorate', 50);
-            $table->string('address', 50);
+            $table->string('address', 100);
             $table->timestamps();
         });
     }

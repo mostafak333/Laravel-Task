@@ -3,6 +3,7 @@
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\GoldController;
 use App\Http\Controllers\BarController;
+use App\Http\Controllers\TreasuryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +31,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('location', LocationController::class);
 Route::resource('gold', GoldController::class);
 Route::resource('bar', BarController::class);
+Route::resource('treasury', TreasuryController::class);
 
 Route::get('/greetin', function () {
     return view('aa');

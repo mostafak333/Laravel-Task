@@ -11,34 +11,34 @@
     <div class="col-sm">
         <div class="card mb-4 box-shadow ">
             <div class="card-header bg-primary text-white">
-              <h4 class="my-0 font-weight-normal">Add New Location</h4>
+                <h4 class="my-0 font-weight-normal">Add New Location</h4>
             </div>
             <div class="card-body">
                 <form action="{{route('location.store')}}" method="post">
                     {{ csrf_field() }}
                     <div class="row">
-                      <div class="col-md-3 mb-3">
-                        <label for="countryname">Country Name</label>
-                        <input type="text" class="form-control" name="locationname" placeholder="" value="">
-                      </div>
-                      <div class="col-md-3 mb-3">
-                        <label for="governorate">Governorate</label>
-                        <input type="text" class="form-control" name="governorate" placeholder="" value="">
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" name="address" placeholder="" value="">
-                    </div>
-                    </div>
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-                            </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="countryname">Country Name</label>
+                            <input type="text" class="form-control" name="locationname" placeholder="" value="">
                         </div>
-                  </form>
-               </div>
-          </div>
-      </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="governorate">Governorate</label>
+                            <input type="text" class="form-control" name="governorate" placeholder="" value="">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" name="address" placeholder="" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 @endsection

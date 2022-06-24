@@ -11,12 +11,22 @@ use Illuminate\Http\Request;
 class GoldController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+
         $allgold = Gold::all();
         return view('gold.show')->with('allgold', $allgold);
     }
@@ -46,15 +56,20 @@ class GoldController extends Controller
         $treasury = Treasury::find($request->input('treasuryid'));
         $treasuryStatus = $treasury->status;
         $gold = new Gold;
-        $gold->karat = $request->input('karat');
         $gold->status = $request->input('status');
         $gold->treasuryid = $request->input('treasuryid');
         $gold->barid = $bid[0]->id;
         $gold->weight = $request->input('weight');
+        $goldw = DB::select("SELECT SUM(weight) as totalw  FROM gold WHERE treasuryId=$gold->treasuryid ");
 
         if ($treasuryStatus == $request->input('status')) {
-            $gold->save();
-            return redirect('/gold')->with('success', 'Gold Added Successfully');
+            if ($treasury->weight >= ($goldw[0]->totalw + $gold->weight)) {
+                $gold->save();
+                return redirect('/gold')->with('success', 'Gold Added Successfully');
+            } else {
+
+                return back()->with('error', 'treasury weigt Full');
+            }
         } else {
             return back()->with('error', 'Gold Status should be same treasury Status');
         }
@@ -68,7 +83,8 @@ class GoldController extends Controller
      */
     public function show($id)
     {
-        //
+        $allgold = DB::select("SELECT * FROM gold WHERE treasuryId= $id");
+        return view('gold.show')->with('allgold', $allgold);
     }
 
     /**
@@ -99,15 +115,19 @@ class GoldController extends Controller
         $treasury = Treasury::find($request->input('treasuryid'));
         $treasuryStatus = $treasury->status;
         $gold =  Gold::find($id);
-        $gold->karat = $request->input('karat');
         $gold->status = $request->input('status');
         $gold->treasuryid = $request->input('treasuryid');
         $gold->barid = $bid[0]->id;
         $gold->weight = $request->input('weight');
-
+        $goldw = DB::select("SELECT SUM(weight) as totalw  FROM gold WHERE treasuryId=$gold->treasuryid ");
         if ($treasuryStatus == $request->input('status')) {
-            $gold->save();
-            return redirect('/gold')->with('success', 'Gold Added Successfully');
+            if ($treasury->weight >= ($goldw[0]->totalw + $gold->weight)) {
+                $gold->save();
+                return redirect('/gold')->with('success', 'Gold Added Successfully');
+            } else {
+
+                return back()->with('error', 'treasury weigt Full');
+            }
         } else {
             return back()->with('error', 'Gold Status should be same treasury Status');
         }
